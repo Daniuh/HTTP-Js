@@ -10,7 +10,9 @@ const fetchQuote = async() => {
 
     const res = await fetch(`https://rickandmortyapi.com/api/character/${random}`);
     const data = await res.json();
-    return data.name;
+
+    console.log(data);
+    return data;
 }
 
 
@@ -22,6 +24,17 @@ export const RickAndMorty = async(element) => {
 
     document.querySelector('#app-title').innerHTML = 'Rick y Morty';
     element.innerHTML = 'Cargando...';
-    const quote = await fetchQuote();
-    element.innerHTML = 'Tenemos data';
+    //const quote = await fetchQuote();
+    const quoteLabel = document.createElement('blockquote');
+    const authoLabel = document.createElement('h3');
+    const nextButtom = document.createElement('button');
+    nextButtom.innerText = 'Next Quote';
+
+    const renderQuote = (data) => {
+        quoteLabel.innerHTML = data.name;
+        authoLabel.innerHTML = data.gender;
+        element.replaceChildren(quoteLabel, authoLabel, nextButtom);
+    }
+
+    fetchQuote().then(renderQuote);
 }
